@@ -1,4 +1,5 @@
 "use client";
+// modal 기능을 우선적으로 테스트하기 위한 테스트용 임시 페이지
 import React, { useState } from "react";
 import Form from "../components/Form";
 import Modal from "../components/Modal";
