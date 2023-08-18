@@ -13,7 +13,7 @@ function Page() {
       </Modal.Button>
 
       <Modal.Content title="Edit contact">
-        <Form />
+        <Form afterSave={() => setIsOpen(false)} />
       </Modal.Content>
     </Modal>
   );

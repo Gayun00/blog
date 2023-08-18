@@ -1,8 +1,17 @@
 import React from "react";
 
-function Form() {
+interface Props {
+  afterSave: () => void;
+}
+
+function Form({ afterSave }: Props) {
+  const handleSubmit = () => {
+    //submit form
+    afterSave();
+  };
+
   return (
-    <div className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <div>
         <label htmlFor="" className="text-sm font-medium text-gray-900">
           Name
@@ -25,7 +34,7 @@ function Form() {
           className="mt-2 block w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm text-gray-900 shadow-sm sm:leading-6"
         />
       </div>
-    </div>
+    </form>
   );
 }
 
