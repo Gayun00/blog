@@ -1,8 +1,5 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -10,6 +7,7 @@ export const metadata: Metadata = {
 };
 
 import "./globals.css";
+import Link from "next/link";
 
 export default function RootLayout({
   children,
@@ -18,7 +16,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <header className="fixed top-0 p-3 flex justify-between items-center w-screen h-12 bg-slate-400">
+        <div>logo</div>
+        <nav className="flex justify-between">
+          <Link href="/posts" className="pr-3">
+            posts
+          </Link>
+          <Link href="/portfolio" className="pr-3">
+            portfolio
+          </Link>
+          <Link href="/resume">resume</Link>
+        </nav>
+      </header>
+      <body className="mt-12">{children}</body>
     </html>
   );
 }
