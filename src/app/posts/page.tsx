@@ -1,5 +1,6 @@
 import fs from "fs";
 import matter from "gray-matter";
+import Link from "next/link";
 import path from "path";
 
 async function fetchData() {
@@ -12,15 +13,16 @@ async function fetchData() {
       slug: string;
       title: string;
       description: string;
+      featured: boolean;
     } => {
       const filePath = path.join(postsDirectory, fileName);
       const fileContents = fs.readFileSync(filePath, "utf8");
       const { data } = matter(fileContents);
-
       return {
         slug: fileName.replace(/\.md$/, ""),
         title: data.title,
         description: data.description,
+        featured: data.featured,
       };
     }
   );
@@ -30,17 +32,17 @@ async function fetchData() {
 
 export default async function index() {
   const posts = await fetchData();
+  const featuredPosts = posts.filter((post) => post.featured);
 
   return (
     <div>
-      <h1>Post Titles</h1>
+      <h1>Featured Posts</h1>
       <ul>
-        {posts.map((post: any) => (
-          <li key={post.slug}>
-            {post.title}
+        {featuredPosts.map((post: any) => (
+          <Link href={`/posts/${post.slug}`} key={post.slug}>
             <h1>{post.title}</h1>
             <p>{post.description}</p>
-          </li>
+          </Link>
         ))}
       </ul>
     </div>
