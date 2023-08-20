@@ -17,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Header />
-      <body className="mt-12">{children}</body>
+      <body className="mt-12 flex flex-col items-center">
+        <div className=" max-w-lg w-screen bg-slate-300">{children}</div>
+      </body>
     </html>
   );
 }

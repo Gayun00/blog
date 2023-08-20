@@ -1,6 +1,6 @@
 import { PostMetaData } from "@/types";
-import Link from "next/link";
 import React from "react";
+import Post from "../Post";
 
 interface Props {
   title: string;
@@ -9,17 +9,14 @@ interface Props {
 
 function Posts({ title, posts }: Props) {
   return (
-    <>
-      <h2>{title}</h2>
-      <ul>
+    <section className="p-8 flex flex-col items-center">
+      <h2 className="text-2xl mb-5">{title}</h2>
+      <ul className="flex flex-col gap-y-16">
         {posts.map((post) => (
-          <Link href={`/posts/${post.slug}`} key={post.slug}>
-            <h1>{post.title}</h1>
-            <p>{post.description}</p>
-          </Link>
+          <Post key={post.title} data={post} />
         ))}
       </ul>
-    </>
+    </section>
   );
 }
 
