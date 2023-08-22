@@ -15,9 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <Header />
-      <body className="mt-12">{children}</body>
+    <html lang="en" className="text-gray-primary">
+      <body className=" flex flex-col items-center bg-slate-primary">
+        <Header />
+        <div className="max-w-lg w-screen">{children}</div>
+      </body>
     </html>
   );
 }

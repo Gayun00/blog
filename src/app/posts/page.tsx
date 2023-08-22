@@ -1,48 +1,20 @@
-import fs from "fs";
-import matter from "gray-matter";
-import path from "path";
+import { PostMetaData } from "@/types";
+import { getListFromFolder } from "@/utils";
+import Posts from "../components/Posts";
 
-async function fetchData() {
-  const postsDirectory = path.join(process.cwd(), "__posts");
-  const fileNames = fs.readdirSync(postsDirectory);
-  const posts = fileNames.map(
-    (
-      fileName
-    ): {
-      slug: string;
-      title: string;
-      description: string;
-    } => {
-      const filePath = path.join(postsDirectory, fileName);
-      const fileContents = fs.readFileSync(filePath, "utf8");
-      const { data } = matter(fileContents);
-
-      return {
-        slug: fileName.replace(/\.md$/, ""),
-        title: data.title,
-        description: data.description,
-      };
-    }
-  );
-
-  return posts;
+function fetchData() {
+  return getListFromFolder<PostMetaData>("__posts");
 }
 
-export default async function index() {
-  const posts = await fetchData();
+export default function index() {
+  const posts = fetchData();
+  const featuredPosts = posts.filter((post) => post.featured);
 
   return (
-    <div>
-      <h1>Post Titles</h1>
-      <ul>
-        {posts.map((post: any) => (
-          <li key={post.slug}>
-            {post.title}
-            <h1>{post.title}</h1>
-            <p>{post.description}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="flex flex-col gap-y-28">
+      <Posts title="Featured Posts" posts={featuredPosts} />
+      {/* TODO: category 선택 기능 추가 */}
+      <Posts title="전체 글 보기" posts={posts} />
     </div>
   );
 }
