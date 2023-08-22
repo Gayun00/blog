@@ -7,7 +7,6 @@ export const metadata: Metadata = {
 };
 
 import "./globals.css";
-import Header from "./components/Header";
 import Gnb from "./components/GNB";
 
 export default function RootLayout({
@@ -18,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="text-gray-primary">
       <body className=" flex flex-col items-center bg-slate-primary">
+        {/* TODO: 사용여부 결정 후 삭제 */}
         {/* <Header /> */}
         <div className="max-w-lg w-screen">{children}</div>
         <Gnb />
