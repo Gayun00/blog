@@ -1,7 +1,7 @@
-import { PostMetaData } from "@/types";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { PostMetaData } from "@/types";
 
 interface Props {
   data: PostMetaData;
@@ -10,9 +10,16 @@ interface Props {
 function Post({ data }: Props) {
   return (
     <Link href={`/posts/${data.slug}`} className="w-full h-40">
-      <div className="p-3 flex items-center justify-center w-full h-40 shadow-new-morph rounded-primary bg-slate-primary">
+      <div className="p-2 flex items-center justify-center w-full h-40 shadow-new-morph rounded-primary bg-slate-primary overflow-hidden">
         {data.thumbnail ? (
-          <Image src={data.thumbnail} alt="post_thumbnail" />
+          <div className="relative w-full h-full overflow-hidden rounded-primary">
+            <Image
+              src={data.thumbnail}
+              layout="fill"
+              objectFit="cover"
+              alt="post_thumbnail"
+            />
+          </div>
         ) : (
           <p>no image</p>
         )}
