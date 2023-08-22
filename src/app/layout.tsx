@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 
 import "./globals.css";
 import Header from "./components/Header";
+import Gnb from "./components/GNB";
 
 export default function RootLayout({
   children,
@@ -19,6 +20,7 @@ export default function RootLayout({
       <body className=" flex flex-col items-center bg-slate-primary">
         <Header />
         <div className="max-w-lg w-screen">{children}</div>
+        <Gnb />
       </body>
     </html>
   );
