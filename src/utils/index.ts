@@ -29,6 +29,9 @@ export const getFileFromFolder = (directoryName: string, fileName: string) => {
 };
 
 export const convertMarkdownToHtml = (markdown: string) => {
-  const processor = unified().use(remarkParse).use(remarkHtml);
+  // TODO: 구체적인 타입 지정
+  const processor = unified()
+    .use(remarkParse)
+    .use(remarkHtml as any);
   return processor.processSync(markdown).toString();
 };

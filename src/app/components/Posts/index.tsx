@@ -11,7 +11,7 @@ function Posts({ title, posts }: Props) {
   return (
     <section className="p-8 flex flex-col items-center">
       <h2 className="text-2xl mb-5">{title}</h2>
-      <ul className="flex flex-col gap-y-16">
+      <ul className="flex flex-col gap-y-28 w-full">
         {posts.map((post) => (
           <Post key={post.title} data={post} />
         ))}

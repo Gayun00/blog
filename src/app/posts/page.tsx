@@ -11,8 +11,10 @@ export default function index() {
   const featuredPosts = posts.filter((post) => post.featured);
 
   return (
-    <div>
+    <div className="flex flex-col gap-y-28">
       <Posts title="Featured Posts" posts={featuredPosts} />
+      {/* TODO: category 선택 기능 추가 */}
+      <Posts title="전체 글 보기" posts={posts} />
     </div>
   );
 }
