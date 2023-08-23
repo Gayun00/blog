@@ -19,7 +19,10 @@ export default function index() {
         posts={[...featuredPosts, ...featuredPosts, ...featuredPosts]}
       />
       {/* TODO: category 선택 기능 추가 */}
-      <Posts title="전체 글 보기" posts={posts} />
+      <Posts
+        title="전체 글 보기"
+        posts={[...posts, ...posts, ...posts, ...posts]}
+      />
     </div>
   );
 }

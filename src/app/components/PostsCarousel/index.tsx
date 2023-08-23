@@ -36,8 +36,8 @@ function PostsCarousel({ title, posts }: Props) {
               slidesPerView: 4,
             },
           }}>
-          {posts?.map((post) => (
-            <SwiperSlide key={post.title} className="bg-slate-primary">
+          {posts?.map((post, idx) => (
+            <SwiperSlide key={idx} className="bg-slate-primary">
               <Post data={post} />
             </SwiperSlide>
           ))}
