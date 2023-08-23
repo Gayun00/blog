@@ -22,9 +22,9 @@ export default async function Page({ params }: { params?: { id: string } }) {
 
   return (
     <div className="pt-16 flex flex-col items-center">
-      <Image src={data.thumbnail} alt="post_thumbnail" width={300} height={0} />
+      <Image src={data.thumbnail} alt="post_thumbnail" width={800} height={0} />
       <main className="mt-10">
-        <h1 className="mb-10 text-2xl font-medium text-gray-primary">
+        <h1 className="mb-10 text-2xl text-center font-medium text-gray-primary">
           {data.title}
         </h1>
         <ReactMarkdown
