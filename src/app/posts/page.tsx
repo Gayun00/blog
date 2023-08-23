@@ -14,7 +14,10 @@ export default function index() {
     <div className="flex flex-col gap-y-28">
       <Posts title="Featured Posts" posts={featuredPosts} />
       {/* TODO: category 선택 기능 추가 */}
-      <Posts title="전체 글 보기" posts={posts} />
+      <Posts
+        title="전체 글 보기"
+        posts={[...posts, ...posts, ...posts, ...posts]}
+      />
     </div>
   );
 }
