@@ -2,6 +2,7 @@ import { PostMetaData } from "@/types";
 import { getListFromFolder } from "@/utils";
 import Posts from "../components/Posts";
 import PostsCarousel from "../components/PostsCarousel";
+import Categories from "../components/Categories";
 
 function fetchData() {
   return getListFromFolder<PostMetaData>("__posts");
@@ -15,14 +16,15 @@ export default function index() {
     <div className="flex">
       <aside className="hidden relative mt-14 basis-1/4 md:block">
         <div className="sticky top-10 w-60">
-          <h1 className="mb-5 text-lg">Categories</h1>
-          <ul className="leading-8">
-            {["Next.js", "Error report", "React", "내부 동작원리 파헤치기"].map(
-              (category) => (
-                <li key={category}>{category}</li>
-              )
-            )}
-          </ul>
+          <Categories
+            title="Categories"
+            list={[
+              "Next.js",
+              "Error report",
+              "React",
+              "내부 동작원리 파헤치기",
+            ]}
+          />
         </div>
       </aside>
 
