@@ -1,6 +1,7 @@
 import { PostMetaData } from "@/types";
 import { getListFromFolder } from "@/utils";
 import Posts from "../components/Posts";
+import Carousel from "../components/Carousel";
 
 function fetchData() {
   return getListFromFolder<PostMetaData>("__posts");
@@ -13,6 +14,9 @@ export default function index() {
   return (
     <div className="flex flex-col gap-y-28">
       <Posts title="Featured Posts" posts={featuredPosts} />
+      <Carousel
+        posts={[...featuredPosts, ...featuredPosts, ...featuredPosts]}
+      />
       {/* TODO: category 선택 기능 추가 */}
       <Posts title="전체 글 보기" posts={posts} />
     </div>
