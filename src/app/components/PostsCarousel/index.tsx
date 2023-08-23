@@ -5,7 +5,6 @@ import { PostMetaData } from "@/types";
 import { Pagination } from "swiper/modules";
 
 import Post from "../Post";
-import PostsLayout from "../layouts/PostsLayout";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css";
@@ -16,34 +15,30 @@ interface Props {
 }
 function PostsCarousel({ title, posts }: Props) {
   return (
-    <PostsLayout title={title}>
-      <div className="w-full">
-        <Swiper
-          pagination={{
-            dynamicBullets: true,
-          }}
-          loop={true}
-          modules={[Pagination]}
-          spaceBetween={50}
-          breakpoints={{
-            375: {
-              slidesPerView: 1,
-            },
-            768: {
-              slidesPerView: 3,
-            },
-            1021: {
-              slidesPerView: 4,
-            },
-          }}>
-          {posts?.map((post) => (
-            <SwiperSlide key={post.title} className="bg-slate-primary">
-              <Post data={post} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-    </PostsLayout>
+    <div className="w-full">
+      <h2 className="text-2xl mb-5 md:ml-3">{title}</h2>
+      <Swiper
+        pagination={{
+          dynamicBullets: true,
+        }}
+        loop={true}
+        modules={[Pagination]}
+        spaceBetween={50}
+        breakpoints={{
+          375: {
+            slidesPerView: 1,
+          },
+          768: {
+            slidesPerView: 3,
+          },
+        }}>
+        {posts?.map((post, idx) => (
+          <SwiperSlide key={idx} className="mb-10 bg-slate-primary">
+            <Post data={post} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }
 

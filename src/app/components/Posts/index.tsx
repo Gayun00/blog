@@ -11,8 +11,8 @@ interface Props {
 function Posts({ title, posts }: Props) {
   return (
     <PostsLayout title={title}>
-      {posts.map((post) => (
-        <Post key={post.title} data={post} />
+      {posts.map((post, idx) => (
+        <Post key={idx} data={post} />
       ))}
     </PostsLayout>
   );

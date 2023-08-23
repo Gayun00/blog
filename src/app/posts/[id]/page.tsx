@@ -3,6 +3,8 @@ import { getFileFromFolder } from "@/utils";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import remarkGfm from "remark-gfm";
 import Image from "next/image";
+import Link from "next/link";
+import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
 
 export async function generateStaticParams() {
   return [{ id: "1" }, { id: "2" }];
@@ -33,6 +35,20 @@ export default async function Page({ params }: { params?: { id: string } }) {
           {content}
         </ReactMarkdown>
       </main>
+      <div className="flex justify-between w-full">
+        <Link
+          href={`/posts/${Number(data.slug) - 1}`}
+          className="flex items-center justify-center gap-x-3 bg-slate-primary rounded-primary shadow-new-morph w-28 h-16">
+          <BsArrowLeftShort />
+          이전 글
+        </Link>
+        <Link
+          href={`/posts/${Number(data.slug) + 1}`}
+          className="flex items-center justify-center gap-x-3 bg-slate-primary rounded-primary shadow-new-morph w-28 h-16">
+          다음 글
+          <BsArrowRightShort />
+        </Link>
+      </div>
     </div>
   );
 }
