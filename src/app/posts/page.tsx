@@ -17,7 +17,6 @@ const fetchSeries = () => {
     .then((res) => res.json())
     .then((data) => data);
 };
-
 export default function index() {
   return (
     <div className="flex">

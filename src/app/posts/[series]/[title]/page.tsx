@@ -54,14 +54,15 @@ export default async function Page({
         </ReactMarkdown>
       </main>
       <div className="flex justify-between w-full">
+        {/* TODO: 이전글/다음글 로직 변경 */}
         <Link
-          href={`/posts/${Number(response.data.slug) - 1}`}
+          href={`/posts`}
           className="flex items-center justify-center gap-x-3 bg-slate-primary rounded-primary shadow-new-morph w-28 h-16">
           <BsArrowLeftShort />
           이전 글
         </Link>
         <Link
-          href={`/posts/${Number(response.data.slug) + 1}`}
+          href={`/posts`}
           className="flex items-center justify-center gap-x-3 bg-slate-primary rounded-primary shadow-new-morph w-28 h-16">
           다음 글
           <BsArrowRightShort />
