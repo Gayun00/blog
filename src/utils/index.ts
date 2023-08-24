@@ -34,7 +34,14 @@ export const getFileFromFolder = (
   );
   const fileContents = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(fileContents);
-  return { data, content };
+  return {
+    data: {
+      thumbnail: data.thumbnail,
+      description: data.description,
+      title: decodeURI(fileName),
+    },
+    content,
+  };
 };
 
 export const getSeries = () => {
@@ -50,8 +57,7 @@ export const getSeries = () => {
         return getSeriesData(seriesDataPath).then((data) => {
           const seriesData = {
             title: folderName,
-            thumbnail: data.thumbnail,
-            description: data.description,
+            ...data,
           };
           result.push(seriesData);
         });
@@ -86,6 +92,7 @@ export const getPostsOfSeries = <TData>(series: string) => {
     const postData = {
       ...data,
       series,
+      title: fileName.replace(".md", ""),
     };
     return postData as TData;
   });

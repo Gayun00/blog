@@ -20,6 +20,7 @@ export async function generateStaticParams() {
     { title: encodeURI("예시 포스트 1!") },
     { title: encodeURI("예시 포스트 2!") },
     { title: encodeURI("예시 포스트 3!") },
+    { title: encodeURI("예시 포스트 4!") },
   ];
 }
 
