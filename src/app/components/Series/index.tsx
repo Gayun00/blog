@@ -8,18 +8,15 @@ interface Props {
   posts: PostData[];
 }
 
-function Posts({ title, posts }: Props) {
+function Series({ title, posts }: Props) {
+  console.log(posts, "posts");
   return (
     <PostsLayout title={title}>
       {posts.map((post, idx) => (
-        <Post
-          key={idx}
-          data={post}
-          pathVariable={`/posts/${post.series}/${post.title}`}
-        />
+        <Post key={idx} data={post} pathVariable={`/posts/${post.pathname}`} />
       ))}
     </PostsLayout>
   );
 }
 
-export default Posts;
+export default Series;

@@ -1,16 +1,17 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { PostMetaData } from "@/types";
+import { PostData } from "@/types";
 
 interface Props {
-  data: PostMetaData;
+  data: PostData;
+  pathVariable: string;
 }
 
-function Post({ data }: Props) {
+function Post({ data, pathVariable }: Props) {
   return (
     <Link
-      href={`/posts/${data.title}`}
+      href={`/posts/${pathVariable}`}
       className="w-full max-w-sm h-full md:h-48">
       <div className="p-2 flex items-center justify-center w-full h-full shadow-new-morph rounded-primary bg-slate-primary overflow-hidden">
         {data.thumbnail ? (
