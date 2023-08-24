@@ -28,7 +28,10 @@ export const getFileFromFolder = (
 ) => {
   const directoryPath = path.join(process.cwd(), directoryName);
 
-  const filePath = path.join(directoryPath, `${series}/${fileName}.md`);
+  const filePath = path.join(
+    directoryPath,
+    `${decodeURI(series)}/${decodeURI(fileName)}.md`
+  );
   const fileContents = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(fileContents);
   return { data, content };
@@ -49,7 +52,6 @@ export const getSeries = () => {
             title: folderName,
             thumbnail: data.thumbnail,
             description: data.description,
-            pathname: data.pathname,
           };
           result.push(seriesData);
         });
@@ -68,7 +70,6 @@ const getSeriesData = (dataPath: string): Promise<SeriesData> => {
       resolve({
         description: data.description,
         thumbnail: data.thumbnail,
-        pathname: data.pathname,
       });
     });
   });

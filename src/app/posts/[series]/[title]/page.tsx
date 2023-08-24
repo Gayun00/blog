@@ -17,9 +17,9 @@ function getPostContent(series: string, fileName: string = "") {
 
 export async function generateStaticParams() {
   return [
-    { title: "예시-포스트-1!" },
-    { title: "예시-포스트-2!" },
-    { title: "예시-포스트-3!" },
+    { title: encodeURI("예시 포스트 1!") },
+    { title: encodeURI("예시 포스트 2!") },
+    { title: encodeURI("예시 포스트 3!") },
   ];
 }
 
@@ -31,7 +31,7 @@ export default async function Page({
   // TODO: add params.title
   const response = await getPostContent(
     params?.series || "",
-    decodeURI(params?.title || "")
+    params?.title || ""
   );
 
   return (

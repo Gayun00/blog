@@ -1,7 +1,6 @@
 export interface SeriesData {
   thumbnail: string;
   description: string;
-  pathname: string;
 }
 
 export interface PostData extends SeriesData {

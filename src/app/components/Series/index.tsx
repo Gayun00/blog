@@ -12,7 +12,7 @@ function Series({ title, posts }: Props) {
   return (
     <PostsLayout title={title}>
       {posts.map((post, idx) => (
-        <Post key={idx} data={post} path={`/posts/${post.pathname}`} />
+        <Post key={idx} data={post} path={`/posts/${post.title}`} />
       ))}
     </PostsLayout>
   );
