@@ -21,10 +21,14 @@ export const getListFromFolder = <TData>(directoryName: string) => {
   return posts;
 };
 
-export const getFileFromFolder = (directoryName: string, fileName: string) => {
+export const getFileFromFolder = (
+  directoryName: string,
+  series: string,
+  fileName: string
+) => {
   const directoryPath = path.join(process.cwd(), directoryName);
 
-  const filePath = path.join(directoryPath, `${fileName}.md`);
+  const filePath = path.join(directoryPath, `${series}/${fileName}.md`);
   const fileContents = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(fileContents);
   return { data, content };
@@ -78,7 +82,11 @@ export const getPostsOfSeries = <TData>(series: string) => {
     const filePath = path.join(postsFolderPath, fileName);
     const fileContents = fs.readFileSync(filePath, "utf8");
     const { data } = matter(fileContents);
-    return data as TData;
+    const postData = {
+      ...data,
+      series,
+    };
+    return postData as TData;
   });
 
   return posts;

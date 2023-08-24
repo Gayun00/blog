@@ -15,7 +15,7 @@ function Posts({ title, posts }: Props) {
         <Post
           key={idx}
           data={post}
-          path={`/posts/${post.series}/${post.title}`}
+          path={`/posts/${post.series}/${post.pathname}`}
         />
       ))}
     </PostsLayout>

@@ -2,14 +2,18 @@ import PostsCarousel from "../components/PostsCarousel";
 import Series from "../components/Series";
 
 function fetchPosts() {
-  return fetch("http://localhost:3000/api/posts?filter=featured", {})
+  return fetch("http://localhost:3000/api/posts?filter=featured", {
+    next: { revalidate: 0 },
+  })
     .then((res) => res.json())
     .then((data) => data);
 }
 
 // TODO: api 랩핑함수로 분리, constants 사용
 const fetchSeries = () => {
-  return fetch("http://localhost:3000/api/posts/series", {})
+  return fetch("http://localhost:3000/api/posts/series", {
+    next: { revalidate: 0 },
+  })
     .then((res) => res.json())
     .then((data) => data);
 };

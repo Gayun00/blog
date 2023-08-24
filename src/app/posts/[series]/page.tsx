@@ -1,4 +1,5 @@
 import Categories from "@/app/components/Categories";
+import Posts from "@/app/components/Posts";
 import Series from "@/app/components/Series";
 
 export async function generateStaticParams() {
@@ -31,9 +32,11 @@ export default function index({ params }: { params?: { series: string } }) {
       </aside>
 
       <main className="px-8 flex flex-col gap-y-40 max-w-lg md:max-w-5xl w-full">
-        <h1>Series: {params?.series || "시리즈 없음"}</h1>
+        <h1 className="text-center">
+          Series: {params?.series || "시리즈 없음"}
+        </h1>
         {fetchData(params?.series || "Next.js").then((data) => (
-          <Series title="Series" posts={data.data} />
+          <Posts title="Series" posts={data.data} />
         ))}
       </main>
     </div>
