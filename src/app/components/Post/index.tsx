@@ -10,7 +10,7 @@ interface Props {
 function Post({ data }: Props) {
   return (
     <Link
-      href={`/posts/${data.slug}`}
+      href={`/posts/${data.title}`}
       className="w-full max-w-sm h-full md:h-48">
       <div className="p-2 flex items-center justify-center w-full h-full shadow-new-morph rounded-primary bg-slate-primary overflow-hidden">
         {data.thumbnail ? (

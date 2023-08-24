@@ -15,8 +15,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="text-gray-primary">
       <body className=" flex flex-col bg-slate-primary">
-        {/* TODO: 사용여부 결정 후 삭제 */}
-        {/* <Header /> */}
         <div className="mb-40">{children}</div>
 
         <div className="fixed bottom-5 flex justify-center w-screen">
