@@ -28,23 +28,38 @@ export const getFileFromFolder = (directoryName: string, fileName: string) => {
   const { data, content } = matter(fileContents);
   return { data, content };
 };
+interface SeriesData {
+  thumbnail: string;
+  description: string;
+}
 
 export const getSeries = () => {
-  const postsFolderPath = path.join(process.cwd(), "__posts2");
+  return new Promise((resolve) => {
+    const postsFolderPath = path.join(process.cwd(), "__posts2");
 
-  const result: any = [];
-  fs.readdir(postsFolderPath, (err, folders) => {
-    folders.forEach((folderName) => {
-      const seriesPath = path.join(postsFolderPath, folderName);
-      const seriesDataPath = path.join(seriesPath, "data.md");
+    const result: any = [];
+    fs.readdir(postsFolderPath, (_, folders) => {
+      const promises = folders.map((folderName) => {
+        const seriesPath = path.join(postsFolderPath, folderName);
+        const seriesDataPath = path.join(seriesPath, "data.md");
 
-      getSeriesData(seriesDataPath).then((data) => console.log(data));
+        return getSeriesData(seriesDataPath).then((data) => {
+          const seriesData = {
+            title: folderName,
+            thumbnail: data.thumbnail,
+            description: data.description,
+          };
+          result.push(seriesData);
+        });
+      });
+
+      Promise.all(promises).then(() => {
+        resolve(result);
+      });
     });
-    return result;
   });
 };
-
-const getSeriesData = (dataPath: any) => {
+const getSeriesData = (dataPath: string): Promise<SeriesData> => {
   return new Promise((resolve) => {
     fs.readFile(dataPath, "utf8", (err, mdContent) => {
       const { data } = matter(mdContent);
