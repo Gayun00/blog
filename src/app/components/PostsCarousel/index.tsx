@@ -1,17 +1,17 @@
 "use client";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { PostMetaData } from "@/types";
+import { PostData } from "@/types";
 import { Pagination } from "swiper/modules";
 
-import Post from "../Post";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css";
+import Post from "../Post";
 
 interface Props {
   title: string;
-  posts: PostMetaData[];
+  posts: PostData[];
 }
 function PostsCarousel({ title, posts }: Props) {
   return (
@@ -35,7 +35,7 @@ function PostsCarousel({ title, posts }: Props) {
         {posts?.map((post, idx) => (
           <SwiperSlide key={idx} className="mb-10 bg-slate-primary">
             <div className="mt-10 w-full h-48">
-              <Post data={post} />
+              <Post data={post} path={`/posts/${post.series}/${post.title}`} />
             </div>
           </SwiperSlide>
         ))}

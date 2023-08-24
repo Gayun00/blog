@@ -1,11 +1,9 @@
-import { PostMetaData } from "@/types";
-import { getListFromFolder } from "@/utils";
-import Posts from "../components/Posts";
 import PostsCarousel from "../components/PostsCarousel";
+import Series from "../components/Series";
 
 function fetchPosts() {
   return fetch("http://localhost:3000/api/posts?filter=featured", {
-    cache: "force-cache",
+    next: { revalidate: 0 },
   })
     .then((res) => res.json())
     .then((data) => data);
@@ -14,7 +12,7 @@ function fetchPosts() {
 // TODO: api 랩핑함수로 분리, constants 사용
 const fetchSeries = () => {
   return fetch("http://localhost:3000/api/posts/series", {
-    cache: "force-cache",
+    next: { revalidate: 0 },
   })
     .then((res) => res.json())
     .then((data) => data);
@@ -32,7 +30,7 @@ export default function index() {
         ))}
         {/* TODO: category 선택 기능 추가 */}
         {fetchSeries().then((data) => (
-          <Posts title="Series" posts={data.data} />
+          <Series title="Series" posts={data.data} />
         ))}
       </main>
     </div>

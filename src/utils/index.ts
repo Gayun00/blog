@@ -4,7 +4,7 @@ import path from "path";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
-import { PostMetaData } from "@/types";
+import { SeriesData } from "@/types";
 
 // TODO: promise 사용
 // TODO: 바뀐 폴더구조에 맞게 로직 변경 (시리즈 하위 파일 모두를 가져오도록)
@@ -21,18 +21,28 @@ export const getListFromFolder = <TData>(directoryName: string) => {
   return posts;
 };
 
-export const getFileFromFolder = (directoryName: string, fileName: string) => {
+export const getFileFromFolder = (
+  directoryName: string,
+  series: string,
+  fileName: string
+) => {
   const directoryPath = path.join(process.cwd(), directoryName);
 
-  const filePath = path.join(directoryPath, `${fileName}.md`);
+  const filePath = path.join(
+    directoryPath,
+    `${decodeURI(series)}/${decodeURI(fileName)}.md`
+  );
   const fileContents = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(fileContents);
-  return { data, content };
+  return {
+    data: {
+      thumbnail: data.thumbnail,
+      description: data.description,
+      title: decodeURI(fileName),
+    },
+    content,
+  };
 };
-interface SeriesData {
-  thumbnail: string;
-  description: string;
-}
 
 export const getSeries = () => {
   return new Promise((resolve) => {
@@ -47,8 +57,7 @@ export const getSeries = () => {
         return getSeriesData(seriesDataPath).then((data) => {
           const seriesData = {
             title: folderName,
-            thumbnail: data.thumbnail,
-            description: data.description,
+            ...data,
           };
           result.push(seriesData);
         });
@@ -76,12 +85,16 @@ export const getPostsOfSeries = <TData>(series: string) => {
   const postsFolderPath = path.join(process.cwd(), `__posts2/${series}`);
   const fileNames = fs.readdirSync(postsFolderPath);
   const postNames = fileNames.filter((fileName) => fileName !== "data.md");
-
   const posts = postNames.map((fileName) => {
     const filePath = path.join(postsFolderPath, fileName);
     const fileContents = fs.readFileSync(filePath, "utf8");
     const { data } = matter(fileContents);
-    return data as TData;
+    const postData = {
+      ...data,
+      series,
+      title: fileName.replace(".md", ""),
+    };
+    return postData as TData;
   });
 
   return posts;
