@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 interface Props {
@@ -12,7 +13,7 @@ function Categories({ title, list }: Props) {
       <ul className="leading-8">
         {list.map((category: any) => (
           <li key={category} className="hover:text-primary">
-            {category}
+            <Link href={`/posts/${category}`}>{category}</Link>
           </li>
         ))}
       </ul>

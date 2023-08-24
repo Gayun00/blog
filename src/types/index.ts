@@ -1,6 +1,6 @@
 export interface PostMetaData {
   featured: boolean;
-  categories: string;
+  series: string;
   thumbnail: string;
   date: string;
   description: string;

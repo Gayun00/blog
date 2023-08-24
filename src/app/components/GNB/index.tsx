@@ -8,7 +8,7 @@ import { BsBook } from "react-icons/bs";
 
 function Gnb() {
   return (
-    <div className="fixed bottom-5 pl-8 pr-8 flex justify-between items-center min-w-min w-1/3 h-12 bg-slate-primary/50 rounded-primary">
+    <div className="pl-8 pr-8 flex justify-between items-center min-w-min w-1/3 h-12 bg-slate-primary/50 rounded-primary">
       <GnbButton href="/">
         <AiOutlineHome />
       </GnbButton>
