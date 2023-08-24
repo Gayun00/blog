@@ -2,7 +2,7 @@ import Categories from "@/app/components/Categories";
 import Series from "@/app/components/Series";
 
 export async function generateStaticParams() {
-  return [{ series: "Next.js" }, { series: "React" }];
+  return [{ series: "next-js" }, { series: "react" }];
 }
 
 function fetchData(series: string) {

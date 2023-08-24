@@ -1,6 +1,3 @@
-import { PostData } from "@/types";
-import { getListFromFolder } from "@/utils";
-import Posts from "../components/Posts";
 import PostsCarousel from "../components/PostsCarousel";
 import Series from "../components/Series";
 
@@ -16,6 +13,7 @@ const fetchSeries = () => {
     .then((res) => res.json())
     .then((data) => data);
 };
+
 export default function index() {
   return (
     <div className="flex">

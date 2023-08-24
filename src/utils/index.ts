@@ -45,6 +45,7 @@ export const getSeries = () => {
             title: folderName,
             thumbnail: data.thumbnail,
             description: data.description,
+            pathname: data.pathname,
           };
           result.push(seriesData);
         });
@@ -73,7 +74,6 @@ export const getPostsOfSeries = <TData>(series: string) => {
   const postsFolderPath = path.join(process.cwd(), `__posts2/${series}`);
   const fileNames = fs.readdirSync(postsFolderPath);
   const postNames = fileNames.filter((fileName) => fileName !== "data.md");
-
   const posts = postNames.map((fileName) => {
     const filePath = path.join(postsFolderPath, fileName);
     const fileContents = fs.readFileSync(filePath, "utf8");

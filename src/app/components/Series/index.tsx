@@ -9,11 +9,10 @@ interface Props {
 }
 
 function Series({ title, posts }: Props) {
-  console.log(posts, "posts");
   return (
     <PostsLayout title={title}>
       {posts.map((post, idx) => (
-        <Post key={idx} data={post} pathVariable={`/posts/${post.pathname}`} />
+        <Post key={idx} data={post} path={`/posts/${post.pathname}`} />
       ))}
     </PostsLayout>
   );

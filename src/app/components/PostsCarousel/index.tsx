@@ -35,7 +35,7 @@ function PostsCarousel({ title, posts }: Props) {
         {posts?.map((post, idx) => (
           <SwiperSlide key={idx} className="mb-10 bg-slate-primary">
             <div className="mt-10 w-full h-48">
-              <Post data={post} pathVariable={`/posts/${post.pathname}`} />
+              <Post data={post} path={`/posts/${post.pathname}`} />
             </div>
           </SwiperSlide>
         ))}
