@@ -3,6 +3,10 @@ export interface SeriesData {
   description: string;
 }
 
+export interface SeriesDataWithTitle extends SeriesData {
+  title: string;
+}
+
 export interface PostData extends SeriesData {
   featured: boolean;
   series: string;
