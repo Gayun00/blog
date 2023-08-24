@@ -2,7 +2,7 @@ import Categories from "@/app/components/Categories";
 import Posts from "@/app/components/Posts";
 import PostsCarousel from "@/app/components/PostsCarousel";
 import { PostMetaData } from "@/types";
-import { getListFromFolder } from "@/utils";
+import { getListFromFolder, getSeries } from "@/utils";
 
 function fetchData() {
   return getListFromFolder<PostMetaData>("__posts");
@@ -11,7 +11,8 @@ function fetchData() {
 export default function index() {
   const posts = fetchData();
   const featuredPosts = posts.filter((post) => post.featured);
-
+  const seriesList = getSeries();
+  console.log(seriesList);
   return (
     <div className="flex">
       <aside className="hidden relative mt-14 pl-16 basis-1/4 md:block">

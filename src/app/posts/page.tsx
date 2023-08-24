@@ -1,5 +1,5 @@
 import { PostMetaData } from "@/types";
-import { getListFromFolder } from "@/utils";
+import { getListFromFolder, getSeries } from "@/utils";
 import Posts from "../components/Posts";
 import PostsCarousel from "../components/PostsCarousel";
 
@@ -10,7 +10,8 @@ function fetchData() {
 export default function index() {
   const posts = fetchData();
   const featuredPosts = posts.filter((post) => post.featured);
-
+  const seriesList = getSeries();
+  console.log(seriesList);
   return (
     <div className="flex">
       <main className="px-8 flex flex-col gap-y-40 max-w-lg md:max-w-5xl w-full">
