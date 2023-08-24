@@ -29,7 +29,10 @@ export default async function Page({
   params?: { series: string; title: string };
 }) {
   // TODO: add params.title
-  const response = await getPostContent(params?.series || "", "예시-포스트-1!");
+  const response = await getPostContent(
+    params?.series || "",
+    decodeURI(params?.title || "")
+  );
 
   return (
     <div className="pt-16 flex flex-col items-center">
