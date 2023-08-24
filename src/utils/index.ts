@@ -4,7 +4,7 @@ import path from "path";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
-import { SeriesData } from "@/types";
+import { SeriesData, SeriesDataWithTitle } from "@/types";
 
 // TODO: promise 사용
 // TODO: 바뀐 폴더구조에 맞게 로직 변경 (시리즈 하위 파일 모두를 가져오도록)
@@ -48,7 +48,7 @@ export const getSeries = () => {
   return new Promise((resolve) => {
     const postsFolderPath = path.join(process.cwd(), "__posts2");
 
-    const result: any = [];
+    const result: SeriesDataWithTitle[] = [];
     fs.readdir(postsFolderPath, (_, folders) => {
       const promises = folders.map((folderName) => {
         const seriesPath = path.join(postsFolderPath, folderName);
@@ -64,7 +64,7 @@ export const getSeries = () => {
       });
 
       Promise.all(promises).then(() => {
-        resolve(result);
+        resolve(result.sort((a, b) => a.title.localeCompare(b.title)));
       });
     });
   });
