@@ -30,15 +30,30 @@ export const getFileFromFolder = (directoryName: string, fileName: string) => {
 };
 
 export const getSeries = () => {
-  const directoryPath = path.join(process.cwd(), "__posts");
-  const fileNames = fs.readdirSync(directoryPath);
-  const posts = fileNames.map((fileName) => {
-    const filePath = path.join(directoryPath, fileName);
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(fileContents);
-  });
+  const postsFolderPath = path.join(process.cwd(), "__posts2");
 
-  return posts;
+  const result: any = [];
+  fs.readdir(postsFolderPath, (err, folders) => {
+    folders.forEach((folderName) => {
+      const seriesPath = path.join(postsFolderPath, folderName);
+      const seriesDataPath = path.join(seriesPath, "data.md");
+
+      getSeriesData(seriesDataPath).then((data) => console.log(data));
+    });
+    return result;
+  });
+};
+
+const getSeriesData = (dataPath: any) => {
+  return new Promise((resolve) => {
+    fs.readFile(dataPath, "utf8", (err, mdContent) => {
+      const { data } = matter(mdContent);
+      resolve({
+        description: data.description,
+        thumbnail: data.thumbnail,
+      });
+    });
+  });
 };
 
 export const convertMarkdownToHtml = (markdown: string) => {
