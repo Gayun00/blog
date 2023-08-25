@@ -2,11 +2,11 @@ import PostsCarousel from "../components/PostsCarousel";
 import Series from "../components/Series";
 
 function fetchPosts() {
-  return fetch("http://localhost:3000/api/posts?filter=featured", {
+  return fetch("http://localhost:3000/api/posts", {
     next: { revalidate: 0 },
   })
     .then((res) => res.json())
-    .then((data) => data);
+    .then((data) => data.data);
 }
 
 // TODO: api 랩핑함수로 분리, constants 사용
@@ -25,7 +25,7 @@ export default function index() {
           <PostsCarousel
             title="추천 글"
             // TODO: 전체 추천 글 데이터로 교체
-            posts={data.data}
+            posts={data}
           />
         ))}
         {/* TODO: category 선택 기능 추가 */}
