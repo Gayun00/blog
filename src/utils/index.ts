@@ -20,6 +20,7 @@ export const getAllPosts = <TData>() => {
       const { data } = matter(fileContents);
       return {
         ...data,
+        series,
         title: postName.replace(".md", ""),
       } as TData;
     });
