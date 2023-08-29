@@ -19,7 +19,7 @@ const fetchSeries = () => {
 };
 export default function index() {
   return (
-    <div className="flex">
+    <div className="flex justify-center">
       <main className="px-8 flex flex-col gap-y-40 max-w-lg md:max-w-5xl w-full">
         {fetchPosts().then((data) => (
           <PostsCarousel
