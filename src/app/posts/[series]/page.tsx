@@ -6,7 +6,7 @@ export async function generateStaticParams() {
 }
 
 function fetchData(series: string) {
-  return fetch(`http://localhost:3000/api/posts/${series}`, {
+  return fetch(`http://localhost:3000/api/posts?series=${encodeURI(series)}`, {
     next: { revalidate: 0 },
   })
     .then((res) => res.json())

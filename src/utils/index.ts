@@ -30,20 +30,12 @@ export const getAllPosts = <TData>() => {
   return posts;
 };
 
-export const getPrevPost = (currentPostTitle: string) => {
+export const getRelatedPost = (currentPostTitle: string) => {
   const posts = getAllPosts();
-  const prevPostIdx =
+  const currentPostIdx =
     posts.findIndex((post) => post.title === currentPostTitle) - 1;
-  // TODO: 맨 처음 글일 경우에 대한 로직 추가
-  return posts[prevPostIdx];
-};
-
-export const getNextPost = (currentPostTitle: string) => {
-  const posts = getAllPosts();
-  const nextPostIdx =
-    posts.findIndex((post) => post.title === currentPostTitle) + 1;
-  // TODO: 맨 마지막 글일 경우에 대한 로직 추가
-  return posts[nextPostIdx];
+  // TODO: 맨 처음과 마지막 글일 경우에 대한 로직 추가
+  return [posts[currentPostIdx - 1], posts[currentPostIdx + 1]];
 };
 
 export const getFileFromFolder = (

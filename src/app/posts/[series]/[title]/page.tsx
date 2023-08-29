@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
 
-function getPostContent(series: string, title: string = "") {
-  return fetch(`http://localhost:3000/api/posts?title=${encodeURI(title)}`, {
+function getPostContent(title: string = "") {
+  return fetch(`http://localhost:3000/api/posts/${encodeURI(title)}`, {
     next: { revalidate: 0 },
   })
     .then((res) => res.json())
@@ -28,10 +28,7 @@ export default async function Page({
   params?: { series: string; title: string };
 }) {
   // TODO: add params.title
-  const response = await getPostContent(
-    params?.series || "",
-    params?.title || ""
-  );
+  const response = await getPostContent(params?.title || "");
   console.log(response, "response");
   return (
     <div className="pt-16 flex flex-col items-center">
