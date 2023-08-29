@@ -1,18 +1,16 @@
 import React from "react";
-import { getFileFromFolder } from "@/utils";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import remarkGfm from "remark-gfm";
 import Image from "next/image";
 import Link from "next/link";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
 
-function getPostContent(series: string, fileName: string = "") {
-  const { data, content } = getFileFromFolder("__posts2", series, fileName);
-
-  return {
-    data,
-    content,
-  };
+function getPostContent(series: string, title: string = "") {
+  return fetch(`http://localhost:3000/api/posts?title=${encodeURI(title)}`, {
+    next: { revalidate: 0 },
+  })
+    .then((res) => res.json())
+    .then((data) => data.data);
 }
 
 export async function generateStaticParams() {
@@ -34,18 +32,18 @@ export default async function Page({
     params?.series || "",
     params?.title || ""
   );
-
+  console.log(response, "response");
   return (
     <div className="pt-16 flex flex-col items-center">
       <Image
-        src={response.data.thumbnail}
+        src={response.thumbnail}
         alt="post_thumbnail"
         width={800}
         height={0}
       />
       <main className="mt-10">
         <h1 className="mb-10 text-2xl text-center font-medium text-gray-primary">
-          {response.data.title}
+          {response.title}
         </h1>
         <ReactMarkdown
           className="prose lg:prose-xl"
