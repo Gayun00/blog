@@ -1,18 +1,16 @@
 import React from "react";
-import { getFileFromFolder } from "@/utils";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import remarkGfm from "remark-gfm";
 import Image from "next/image";
 import Link from "next/link";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
 
-function getPostContent(series: string, fileName: string = "") {
-  const { data, content } = getFileFromFolder("__posts2", series, fileName);
-
-  return {
-    data,
-    content,
-  };
+function getPostContent(title: string = "") {
+  return fetch(`http://localhost:3000/api/posts/${encodeURI(title)}`, {
+    next: { revalidate: 0 },
+  })
+    .then((res) => res.json())
+    .then((data) => data);
 }
 
 export async function generateStaticParams() {
@@ -30,10 +28,8 @@ export default async function Page({
   params?: { series: string; title: string };
 }) {
   // TODO: add params.title
-  const response = await getPostContent(
-    params?.series || "",
-    params?.title || ""
-  );
+  const response = await getPostContent(params?.title || "");
+  const [prevPost, nextPost] = response.relatedPosts;
 
   return (
     <div className="pt-16 flex flex-col items-center">
@@ -55,18 +51,36 @@ export default async function Page({
       </main>
       <div className="flex justify-between w-full">
         {/* TODO: 이전글/다음글 로직 변경 */}
-        <Link
-          href={`/posts`}
-          className="flex items-center justify-center gap-x-3 bg-slate-primary rounded-primary shadow-new-morph w-28 h-16">
-          <BsArrowLeftShort />
-          이전 글
-        </Link>
-        <Link
-          href={`/posts`}
-          className="flex items-center justify-center gap-x-3 bg-slate-primary rounded-primary shadow-new-morph w-28 h-16">
-          다음 글
-          <BsArrowRightShort />
-        </Link>
+        {prevPost && (
+          <Link
+            href={`/posts/${encodeURI(prevPost.series)}/${encodeURI(
+              prevPost.title
+            )}`}
+            className="p-6 flex flex-col justify-center items-end gap-y-3 bg-slate-primary rounded-primary shadow-new-morph w-64 h-32">
+            <div className="flex items-center">
+              <BsArrowLeftShort />
+              <p className="text-sm">이전 글</p>
+            </div>
+            <p className="overflow-hidden w-full text-ellipsis text-end">
+              {prevPost.title}
+            </p>
+          </Link>
+        )}
+        {nextPost && (
+          <Link
+            href={`/posts/${encodeURI(nextPost.series)}/${encodeURI(
+              nextPost.title
+            )}`}
+            className="p-6 flex flex-col justify-center gap-y-3 bg-slate-primary rounded-primary shadow-new-morph w-64 h-32">
+            <div className="flex items-center">
+              <p className="text-sm">다음 글</p>
+              <BsArrowRightShort />
+            </div>
+            <p className="overflow-hidden w-full text-ellipsis">
+              {nextPost.title}
+            </p>
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import path from "path";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
-import { SeriesData, SeriesDataWithTitle } from "@/types";
+import { PostData, SeriesData, SeriesDataWithTitle } from "@/types";
 
 // TODO: promise 사용
 // TODO: 바뀐 폴더구조에 맞게 로직 변경 (시리즈 하위 파일 모두를 가져오도록)
@@ -30,6 +30,18 @@ export const getAllPosts = <TData>() => {
   return posts;
 };
 
+export const getRelatedPosts = (currentPostTitle: string) => {
+  const posts = getAllPosts();
+  const onlyPosts = posts
+    .filter((post) => post.title !== "data")
+    .sort((a, b) => a.title - b.title);
+  const currentPostIdx = onlyPosts.findIndex(
+    (post) => post.title === currentPostTitle
+  );
+
+  return [onlyPosts[currentPostIdx - 1], onlyPosts[currentPostIdx + 1]];
+};
+
 export const getFileFromFolder = (
   directoryName: string,
   series: string,
@@ -53,7 +65,7 @@ export const getFileFromFolder = (
   };
 };
 
-export const getSeries = () => {
+export const getSeries = (): Promise<SeriesDataWithTitle[]> => {
   return new Promise((resolve) => {
     const postsFolderPath = path.join(process.cwd(), "__posts2");
 
@@ -78,6 +90,7 @@ export const getSeries = () => {
     });
   });
 };
+
 const getSeriesData = (dataPath: string): Promise<SeriesData> => {
   return new Promise((resolve) => {
     fs.readFile(dataPath, "utf8", (err, mdContent) => {
@@ -107,6 +120,12 @@ export const getPostsOfSeries = <TData>(series: string) => {
   });
 
   return posts;
+};
+
+export const getPost = (title: string): PostData[] => {
+  const posts = getAllPosts();
+  const matchedPost = posts.find((post) => post.title === title);
+  return matchedPost;
 };
 
 export const convertMarkdownToHtml = (markdown: string) => {
