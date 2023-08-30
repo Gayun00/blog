@@ -30,12 +30,16 @@ export const getAllPosts = <TData>() => {
   return posts;
 };
 
-export const getRelatedPost = (currentPostTitle: string) => {
+export const getRelatedPosts = (currentPostTitle: string) => {
   const posts = getAllPosts();
-  const currentPostIdx =
-    posts.findIndex((post) => post.title === currentPostTitle) - 1;
-  // TODO: 맨 처음과 마지막 글일 경우에 대한 로직 추가
-  return [posts[currentPostIdx - 1], posts[currentPostIdx + 1]];
+  const onlyPosts = posts
+    .filter((post) => post.title !== "data")
+    .sort((a, b) => a.title - b.title);
+  const currentPostIdx = onlyPosts.findIndex(
+    (post) => post.title === currentPostTitle
+  );
+
+  return [onlyPosts[currentPostIdx - 1], onlyPosts[currentPostIdx + 1]];
 };
 
 export const getFileFromFolder = (
@@ -86,6 +90,7 @@ export const getSeries = (): Promise<SeriesDataWithTitle[]> => {
     });
   });
 };
+
 const getSeriesData = (dataPath: string): Promise<SeriesData> => {
   return new Promise((resolve) => {
     fs.readFile(dataPath, "utf8", (err, mdContent) => {
