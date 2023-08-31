@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getSeries } from "@/utils";
+import { getSeries } from "@/utils/processPosts";
 
 export async function GET() {
   const res = await getSeries();
