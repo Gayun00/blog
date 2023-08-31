@@ -4,7 +4,7 @@ import {
   getPostsOfSeries,
   getRelatedPosts,
   getSeries,
-} from ".";
+} from "./processPosts";
 const mock = require("mock-fs");
 
 const mockFs = () => {

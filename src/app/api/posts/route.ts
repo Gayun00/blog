@@ -1,5 +1,5 @@
 import { PostData } from "@/types";
-import { getAllPosts, getPost, getPostsOfSeries } from "@/utils";
+import { getAllPosts, getPost, getPostsOfSeries } from "@/utils/processPosts";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {

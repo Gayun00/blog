@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPost, getRelatedPosts } from "@/utils";
+import { getPost, getRelatedPosts } from "@/utils/processPosts";
 
 export async function GET(
   _: Request,

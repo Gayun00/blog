@@ -1,10 +1,7 @@
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
-// TODO: test 환경 구축 관련 에러 수정 필요
-// import unified from "unified";
-import remarkParse from "remark-parse";
-import remarkHtml from "remark-html";
+
 import { PostData, SeriesData, SeriesDataWithTitle } from "@/types";
 
 // TODO: promise 사용
@@ -107,12 +104,3 @@ export const getPost = (title: string): PostData[] => {
   const matchedPost = posts.find((post) => post.title === title);
   return matchedPost;
 };
-
-// export const convertMarkdownToHtml = (markdown: string) => {
-//   // TODO: 구체적인 타입 지정
-//   const processor = unified
-//     .unified()
-//     .use(remarkParse)
-//     .use(remarkHtml as any);
-//   return processor.processSync(markdown).toString();
-// };
