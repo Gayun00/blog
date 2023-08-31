@@ -1,29 +1,31 @@
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
-import { unified } from "unified";
+// import unified from "unified";
 import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
 import { PostData, SeriesData, SeriesDataWithTitle } from "@/types";
 
 // TODO: promise 사용
 // TODO: 바뀐 폴더구조에 맞게 로직 변경 (시리즈 하위 파일 모두를 가져오도록)
-export const getAllPosts = <TData>() => {
-  const postsDirPath = path.join(process.cwd(), "__posts2");
+export const getAllPosts = <TData>(dir = "__posts2") => {
+  const postsDirPath = path.join(process.cwd(), dir);
   const postsDir = fs.readdirSync(postsDirPath);
   const posts = postsDir.reduce((acc: any, series: any) => {
     const seriesPath = path.join(postsDirPath, series);
     const seriesDir = fs.readdirSync(seriesPath);
-    const seriesPosts = seriesDir.map((postName) => {
-      const postPath = path.join(seriesPath, postName);
-      const fileContents = fs.readFileSync(postPath, "utf8");
-      const { data } = matter(fileContents);
-      return {
-        ...data,
-        series,
-        title: postName.replace(".md", ""),
-      } as TData;
-    });
+    const seriesPosts = seriesDir
+      .filter((postName) => postName !== "data.md")
+      .map((postName) => {
+        const postPath = path.join(seriesPath, postName);
+        const fileContents = fs.readFileSync(postPath, "utf8");
+        const { data } = matter(fileContents);
+        return {
+          ...data,
+          series,
+          title: postName.replace(".md", ""),
+        } as TData;
+      });
     return [...acc, ...seriesPosts];
   }, []);
 
@@ -128,10 +130,11 @@ export const getPost = (title: string): PostData[] => {
   return matchedPost;
 };
 
-export const convertMarkdownToHtml = (markdown: string) => {
-  // TODO: 구체적인 타입 지정
-  const processor = unified()
-    .use(remarkParse)
-    .use(remarkHtml as any);
-  return processor.processSync(markdown).toString();
-};
+// export const convertMarkdownToHtml = (markdown: string) => {
+//   // TODO: 구체적인 타입 지정
+//   const processor = unified
+//     .unified()
+//     .use(remarkParse)
+//     .use(remarkHtml as any);
+//   return processor.processSync(markdown).toString();
+// };
