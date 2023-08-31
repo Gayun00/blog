@@ -4,34 +4,27 @@ import remarkGfm from "remark-gfm";
 import Image from "next/image";
 import Link from "next/link";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
-import { getPost, getRelatedPosts } from "@/utils/processPosts";
+import { getAllPosts, getPost, getRelatedPosts } from "@/utils/processPosts";
 
-export const dynamic = "force-static";
-
-async function getPostContent(title: string = "") {
-  const res = await getPost(decodeURI(title) || "");
+function getPostContent(title: string = "") {
+  const res = getPost(decodeURI(title) || "");
   const relatedPosts = getRelatedPosts(decodeURI(title));
   return { data: res, relatedPosts };
 }
 
 export async function generateStaticParams() {
-  return [
-    { title: encodeURI("예시 포스트 1!") },
-    { title: encodeURI("예시 포스트 2!") },
-    { title: encodeURI("예시 포스트 3!") },
-    { title: encodeURI("예시 포스트 4!") },
-  ];
+  return getAllPosts().map((post) => ({
+    title: encodeURI(post.title),
+  }));
 }
 
-export default async function Page({
+export default async function index({
   params,
 }: {
   params?: { series: string; title: string };
 }) {
-  // TODO: add params.title
   const response = await getPostContent(params?.title || "");
   const [prevPost, nextPost] = response.relatedPosts;
-  console.log("response", response);
   return (
     <div className="pt-16 flex flex-col items-center">
       <Image
@@ -51,7 +44,6 @@ export default async function Page({
         </ReactMarkdown>
       </main>
       <div className="flex justify-between w-full">
-        {/* TODO: 이전글/다음글 로직 변경 */}
         {prevPost && (
           <Link
             href={`/posts/${encodeURI(prevPost.series)}/${encodeURI(
