@@ -14,7 +14,8 @@ function getPostContent(title: string = "") {
 
 export async function generateStaticParams() {
   return getAllPosts().map((post) => ({
-    title: encodeURI(post.title),
+    series: post.series,
+    title: post.title,
   }));
 }
 
