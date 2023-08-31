@@ -7,6 +7,7 @@ export async function GET(request: Request) {
   const isFeaturedPost = searchParams.get("filter") == "featured";
   const postTitle = decodeURI(searchParams.get("title") || "");
   const series = decodeURI(searchParams.get("series") || "");
+
   let data: PostData[] | PostData = [];
 
   if (series) {
