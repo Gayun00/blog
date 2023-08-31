@@ -1,6 +1,7 @@
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
+// TODO: test 환경 구축 관련 에러 수정 필요
 // import unified from "unified";
 import remarkParse from "remark-parse";
 import remarkHtml from "remark-html";
@@ -42,29 +43,6 @@ export const getRelatedPosts = (currentPostTitle: string) => {
   );
 
   return [onlyPosts[currentPostIdx - 1], onlyPosts[currentPostIdx + 1]];
-};
-
-export const getFileFromFolder = (
-  directoryName: string,
-  series: string,
-  fileName: string
-) => {
-  const directoryPath = path.join(process.cwd(), directoryName);
-
-  const filePath = path.join(
-    directoryPath,
-    `${decodeURI(series)}/${decodeURI(fileName)}.md`
-  );
-  const fileContents = fs.readFileSync(filePath, "utf8");
-  const { data, content } = matter(fileContents);
-  return {
-    data: {
-      thumbnail: data.thumbnail,
-      description: data.description,
-      title: decodeURI(fileName),
-    },
-    content,
-  };
 };
 
 export const getSeries = (): Promise<SeriesDataWithTitle[]> => {
