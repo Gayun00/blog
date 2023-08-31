@@ -9,7 +9,7 @@ const mock = require("mock-fs");
 
 const mockFs = () => {
   mock({
-    __posts2: {
+    __posts: {
       series1: {
         "post1.md": `---
 title: Post 1

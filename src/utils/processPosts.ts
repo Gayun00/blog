@@ -6,8 +6,8 @@ import { PostData, SeriesData, SeriesDataWithTitle } from "@/types";
 
 // TODO: promise 사용
 // TODO: 바뀐 폴더구조에 맞게 로직 변경 (시리즈 하위 파일 모두를 가져오도록)
-export const getAllPosts = <TData>(dir = "__posts2") => {
-  const postsDirPath = path.join(process.cwd(), dir);
+export const getAllPosts = <TData>() => {
+  const postsDirPath = path.join(process.cwd(), "__posts");
   const postsDir = fs.readdirSync(postsDirPath);
   const posts = postsDir.reduce((acc: any, series: any) => {
     const seriesPath = path.join(postsDirPath, series);
@@ -44,7 +44,7 @@ export const getRelatedPosts = (currentPostTitle: string) => {
 
 export const getSeries = (): Promise<SeriesDataWithTitle[]> => {
   return new Promise((resolve) => {
-    const postsFolderPath = path.join(process.cwd(), "__posts2");
+    const postsFolderPath = path.join(process.cwd(), "__posts");
 
     const result: SeriesDataWithTitle[] = [];
     fs.readdir(postsFolderPath, (_, folders) => {
@@ -81,7 +81,7 @@ const getSeriesData = (dataPath: string): Promise<SeriesData> => {
 };
 
 export const getPostsOfSeries = <TData>(series: string) => {
-  const postsFolderPath = path.join(process.cwd(), `__posts2/${series}`);
+  const postsFolderPath = path.join(process.cwd(), `__posts/${series}`);
   const fileNames = fs.readdirSync(postsFolderPath);
   const postNames = fileNames.filter((fileName) => fileName !== "data.md");
   const posts = postNames.map((fileName) => {
