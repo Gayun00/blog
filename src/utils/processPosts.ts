@@ -3,10 +3,11 @@ import matter from "gray-matter";
 import path from "path";
 
 import { PostData, SeriesData, SeriesDataWithTitle } from "@/types";
+import { cache } from "react";
 
 // TODO: promise 사용
 // TODO: 바뀐 폴더구조에 맞게 로직 변경 (시리즈 하위 파일 모두를 가져오도록)
-export const getAllPosts = <TData>() => {
+export const getAllPosts = cache(<TData>() => {
   const postsDirPath = path.join(process.cwd(), "__posts");
   const postsDir = fs.readdirSync(postsDirPath);
   const posts = postsDir.reduce((acc: any, series: any) => {
@@ -29,9 +30,13 @@ export const getAllPosts = <TData>() => {
   }, []);
 
   return posts;
+});
+
+export const getFeaturedPosts = () => {
+  return getAllPosts().filter((post) => !!post.featured);
 };
 
-export const getRelatedPosts = (currentPostTitle: string) => {
+export const getRelatedPosts = cache((currentPostTitle: string) => {
   const posts = getAllPosts();
   const onlyPosts = posts
     .filter((post) => post.title !== "data")
@@ -41,9 +46,9 @@ export const getRelatedPosts = (currentPostTitle: string) => {
   );
 
   return [onlyPosts[currentPostIdx - 1], onlyPosts[currentPostIdx + 1]];
-};
+});
 
-export const getSeries = (): Promise<SeriesDataWithTitle[]> => {
+export const getSeries = cache((): Promise<SeriesDataWithTitle[]> => {
   return new Promise((resolve) => {
     const postsFolderPath = path.join(process.cwd(), "__posts");
 
@@ -67,9 +72,9 @@ export const getSeries = (): Promise<SeriesDataWithTitle[]> => {
       });
     });
   });
-};
+});
 
-const getSeriesData = (dataPath: string): Promise<SeriesData> => {
+const getSeriesData = cache((dataPath: string): Promise<SeriesData> => {
   return new Promise((resolve) => {
     fs.readFile(dataPath, "utf8", (err, mdContent) => {
       const { data } = matter(mdContent);
@@ -79,12 +84,13 @@ const getSeriesData = (dataPath: string): Promise<SeriesData> => {
       });
     });
   });
-};
+});
 
-export const getPostsOfSeries = <TData>(series: string) => {
+export const getPostsOfSeries = cache((series: string): PostData[] => {
   const postsFolderPath = path.join(process.cwd(), `__posts/${series}`);
   const fileNames = fs.readdirSync(postsFolderPath);
   const postNames = fileNames.filter((fileName) => fileName !== "data.md");
+
   const posts = postNames.map((fileName) => {
     const filePath = path.join(postsFolderPath, fileName);
     const fileContents = fs.readFileSync(filePath, "utf8");
@@ -95,14 +101,14 @@ export const getPostsOfSeries = <TData>(series: string) => {
       series,
       title: fileName.replace(".md", ""),
     };
-    return postData as TData;
+    return postData as PostData;
   });
 
   return posts;
-};
+});
 
-export const getPost = (title: string): PostData => {
+export const getPost = cache((title: string): PostData => {
   const posts = getAllPosts();
   const matchedPost = posts.find((post) => post.title === title);
   return matchedPost;
-};
+});
