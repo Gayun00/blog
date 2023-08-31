@@ -33,33 +33,32 @@ export const getRelatedPosts = cache((currentPostTitle: string) => {
   return [posts[currentPostIdx - 1], posts[currentPostIdx + 1]];
 });
 
-export const getSeries = cache((): Promise<SeriesDataWithTitle[]> => {
-  return new Promise((resolve) => {
-    const result: SeriesDataWithTitle[] = [];
-    fs.readdir(rootDirPath, (_, folders) => {
-      const promises = folders.map((folderName) => {
-        const seriesPath = path.join(rootDirPath, folderName);
-        const seriesDataPath = path.join(seriesPath, "data.md");
+export const getSeries = async (): Promise<SeriesDataWithTitle[]> => {
+  const folders = await fs.promises.readdir(rootDirPath);
+  const seriesDataPromises = folders.map(async (folderName) => {
+    const seriesPath = path.join(rootDirPath, folderName);
+    const seriesDataPath = path.join(seriesPath, "data.md");
 
-        return getSeriesData(seriesDataPath).then((data) => {
-          const seriesData = {
-            title: folderName,
-            ...data,
-          };
-          result.push(seriesData);
-        });
-      });
-
-      Promise.all(promises).then(() => {
-        resolve(result.sort((a, b) => a.title.localeCompare(b.title)));
-      });
-    });
+    const data = await getSeriesData(seriesDataPath);
+    const seriesData: SeriesDataWithTitle = {
+      title: folderName,
+      ...data,
+    };
+    return seriesData;
   });
-});
 
-const getSeriesData = cache((dataPath: string): Promise<SeriesData> => {
-  return new Promise((resolve) => {
+  const seriesDataList = await Promise.all(seriesDataPromises);
+  return seriesDataList.sort((a, b) => a.title.localeCompare(b.title));
+};
+
+const getSeriesData = (dataPath: string): Promise<SeriesData> => {
+  return new Promise((resolve, reject) => {
     fs.readFile(dataPath, "utf8", (err, mdContent) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
       const { data } = matter(mdContent);
       resolve({
         description: data.description,
@@ -67,7 +66,7 @@ const getSeriesData = cache((dataPath: string): Promise<SeriesData> => {
       });
     });
   });
-});
+};
 
 export const getPostsOfSeries = cache((series: string): PostData[] => {
   const postDirList = getPostDirListOfSeries(series);
