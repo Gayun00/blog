@@ -17,9 +17,10 @@ export const getAllPosts = <TData>() => {
       .map((postName) => {
         const postPath = path.join(seriesPath, postName);
         const fileContents = fs.readFileSync(postPath, "utf8");
-        const { data } = matter(fileContents);
+        const { data, content } = matter(fileContents);
         return {
           ...data,
+          content,
           series,
           title: postName.replace(".md", ""),
         } as TData;
@@ -87,9 +88,10 @@ export const getPostsOfSeries = <TData>(series: string) => {
   const posts = postNames.map((fileName) => {
     const filePath = path.join(postsFolderPath, fileName);
     const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(fileContents);
+    const { data, content } = matter(fileContents);
     const postData = {
       ...data,
+      content,
       series,
       title: fileName.replace(".md", ""),
     };
@@ -99,7 +101,7 @@ export const getPostsOfSeries = <TData>(series: string) => {
   return posts;
 };
 
-export const getPost = (title: string): PostData[] => {
+export const getPost = (title: string): PostData => {
   const posts = getAllPosts();
   const matchedPost = posts.find((post) => post.title === title);
   return matchedPost;

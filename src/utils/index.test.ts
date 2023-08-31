@@ -57,6 +57,7 @@ Content for Data`,
 const mockedPost = (seriesNumber: number, number: number) => {
   return {
     description: `Description for Post ${number}`,
+    content: `Content for Post ${number}`,
     series: `series${seriesNumber}`,
     thumbnail: `path/to/thumbnail${number}.png`,
     title: `post${number}`,
@@ -78,7 +79,7 @@ const allPosts = [
   mockedPost(2, 4),
 ];
 
-describe("getAllPosts() 테스트", () => {
+describe("processPosts", () => {
   beforeEach(() => {
     mockFs();
   });
@@ -87,21 +88,11 @@ describe("getAllPosts() 테스트", () => {
     mock.restore();
   });
 
-  it("모든 포스트 정보 가져오기", () => {
+  it("getAllPosts() 테스트", () => {
     expect(getAllPosts()).toEqual(allPosts);
   });
-});
 
-describe("getRelatedPosts() 테스트", () => {
-  beforeEach(() => {
-    mockFs();
-  });
-
-  afterEach(() => {
-    mock.restore();
-  });
-
-  it("포스트 제목으로 이전글과 다음글 정보 가져오기", () => {
+  it("getRelatedPosts() 테스트", () => {
     expect(getRelatedPosts("post2")).toEqual([
       mockedPost(1, 1),
       mockedPost(2, 3),
