@@ -1,17 +1,11 @@
 import Image from "next/image";
 import PostsCarousel from "../components/PostsCarousel";
 import Series from "../components/Series";
-import { getAllPosts, getSeries } from "@/utils/processPosts";
-export const dynamic = "force-static";
-async function fetchPosts() {
-  return await getAllPosts();
-}
+import { getFeaturedPosts, getSeries } from "@/utils/processPosts";
 
-// TODO: api 랩핑함수로 분리, constants 사용
-const fetchSeries = async () => {
-  return await getSeries();
-};
 export default function index() {
+  const featuredPosts = getFeaturedPosts();
+
   return (
     <div className="flex flex-col items-center">
       <section className="flex items-center h-40">
@@ -22,15 +16,8 @@ export default function index() {
       </section>
       <div className="flex justify-center">
         <main className="px-8 flex flex-col gap-y-40 max-w-lg md:max-w-5xl w-full">
-          {fetchPosts().then((data) => (
-            <PostsCarousel
-              title="추천 글"
-              // TODO: 전체 추천 글 데이터로 교체
-              posts={data}
-            />
-          ))}
-          {/* TODO: category 선택 기능 추가 */}
-          {fetchSeries().then((data) => (
+          <PostsCarousel title="추천 글" posts={featuredPosts} />
+          {getSeries().then((data) => (
             <Series title="Series" posts={data} />
           ))}
         </main>

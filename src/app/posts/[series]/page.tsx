@@ -1,25 +1,21 @@
+import { getPostsOfSeries, getSeries } from "@/utils/processPosts";
 import Categories from "@/app/components/Categories";
 import Posts from "@/app/components/Posts";
-import { getAllPosts, getPostsOfSeries, getSeries } from "@/utils/processPosts";
-export const dynamic = "force-static";
+
 export async function generateStaticParams() {
-  return [{ series: "Next.js 작동원리" }, { series: "React" }];
+  return getSeries().then((seriesList) =>
+    seriesList.map((series) => ({ series: encodeURI(series.title) }))
+  );
 }
-
-async function fetchData(series: string) {
-  return await getAllPosts();
-}
-
-const fetchSeries = async () => {
-  return await getSeries();
-};
 
 export default function index({ params }: { params?: { series: string } }) {
+  const postsOfSeries = getPostsOfSeries(decodeURI(params?.series || ""));
+
   return (
     <div className="flex">
       <aside className="hidden relative mt-14 pl-16 basis-1/4 md:block">
         <div className="sticky top-10 w-60">
-          {fetchSeries().then((data) => (
+          {getSeries().then((data) => (
             <Categories
               title="Categories"
               list={data}
@@ -33,9 +29,7 @@ export default function index({ params }: { params?: { series: string } }) {
         <h1 className="mb-20 text-3xl text-center">
           Series: {decodeURI(params?.series || "")}
         </h1>
-        {fetchData(params?.series || "Next.js").then((data) => (
-          <Posts title="Series" posts={data} />
-        ))}
+        <Posts title="Series" posts={postsOfSeries} />
       </main>
     </div>
   );
