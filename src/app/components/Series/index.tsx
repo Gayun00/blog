@@ -1,11 +1,11 @@
-import { PostData } from "@/types";
+import { PostData, SeriesDataWithTitle } from "@/types";
 import React from "react";
 import Post from "../Post";
 import PostsLayout from "../layouts/PostsLayout";
 
 interface Props {
   title: string;
-  posts: PostData[];
+  posts: PostData[] | SeriesDataWithTitle[];
 }
 
 function Series({ title, posts }: Props) {

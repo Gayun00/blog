@@ -1,22 +1,15 @@
 import Image from "next/image";
 import PostsCarousel from "../components/PostsCarousel";
 import Series from "../components/Series";
-
-function fetchPosts() {
-  return fetch("http://localhost:3000/api/posts", {
-    next: { revalidate: 0 },
-  })
-    .then((res) => res.json())
-    .then((data) => data.data);
+import { getAllPosts, getSeries } from "@/utils/processPosts";
+export const dynamic = "force-static";
+async function fetchPosts() {
+  return await getAllPosts();
 }
 
 // TODO: api 랩핑함수로 분리, constants 사용
-const fetchSeries = () => {
-  return fetch("http://localhost:3000/api/posts/series", {
-    next: { revalidate: 0 },
-  })
-    .then((res) => res.json())
-    .then((data) => data);
+const fetchSeries = async () => {
+  return await getSeries();
 };
 export default function index() {
   return (
@@ -38,7 +31,7 @@ export default function index() {
           ))}
           {/* TODO: category 선택 기능 추가 */}
           {fetchSeries().then((data) => (
-            <Series title="Series" posts={data.data} />
+            <Series title="Series" posts={data} />
           ))}
         </main>
       </div>

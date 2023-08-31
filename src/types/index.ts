@@ -10,6 +10,7 @@ export interface SeriesDataWithTitle extends SeriesData {
 export interface PostData extends SeriesData {
   featured: boolean;
   series: string;
+  content: string;
   date: string;
   slug: string;
   tags: string;

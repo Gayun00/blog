@@ -4,13 +4,14 @@ import remarkGfm from "remark-gfm";
 import Image from "next/image";
 import Link from "next/link";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
+import { getPost, getRelatedPosts } from "@/utils/processPosts";
 
-function getPostContent(title: string = "") {
-  return fetch(`http://localhost:3000/api/posts/${encodeURI(title)}`, {
-    next: { revalidate: 0 },
-  })
-    .then((res) => res.json())
-    .then((data) => data);
+export const dynamic = "force-static";
+
+async function getPostContent(title: string = "") {
+  const res = await getPost(decodeURI(title) || "");
+  const relatedPosts = getRelatedPosts(decodeURI(title));
+  return { data: res, relatedPosts };
 }
 
 export async function generateStaticParams() {
@@ -30,7 +31,7 @@ export default async function Page({
   // TODO: add params.title
   const response = await getPostContent(params?.title || "");
   const [prevPost, nextPost] = response.relatedPosts;
-
+  console.log("response", response);
   return (
     <div className="pt-16 flex flex-col items-center">
       <Image
@@ -46,7 +47,7 @@ export default async function Page({
         <ReactMarkdown
           className="prose lg:prose-xl"
           remarkPlugins={[remarkGfm]}>
-          {response.content}
+          {response.data.content}
         </ReactMarkdown>
       </main>
       <div className="flex justify-between w-full">
