@@ -5,31 +5,19 @@ import path from "path";
 import { PostData, SeriesData, SeriesDataWithTitle } from "@/types";
 import { cache } from "react";
 
-// TODO: promise 사용
-// TODO: 바뀐 폴더구조에 맞게 로직 변경 (시리즈 하위 파일 모두를 가져오도록)
-export const getAllPosts = cache(<TData>() => {
-  const postsDirPath = path.join(process.cwd(), "__posts");
-  const postsDir = fs.readdirSync(postsDirPath);
-  const posts = postsDir.reduce((acc: any, series: any) => {
-    const seriesPath = path.join(postsDirPath, series);
-    const seriesDir = fs.readdirSync(seriesPath);
-    const seriesPosts = seriesDir
-      .filter((postName) => postName !== "data.md")
-      .map((postName) => {
-        const postPath = path.join(seriesPath, postName);
-        const fileContents = fs.readFileSync(postPath, "utf8");
-        const { data, content } = matter(fileContents);
-        return {
-          ...data,
-          content,
-          series,
-          title: postName.replace(".md", ""),
-        } as TData;
-      });
+const rootDirPath = path.join(process.cwd(), "__posts");
+
+export const getAllPosts = cache(() => {
+  const rootDir = fs.readdirSync(rootDirPath);
+  const posts = rootDir.reduce((acc: PostData[], series: string) => {
+    const postDirList = getPostDirListOfSeries(series);
+    const seriesPosts = postDirList.map((postName) =>
+      getPostContent(series, postName)
+    );
     return [...acc, ...seriesPosts];
   }, []);
 
-  return posts;
+  return posts.sort((a, b) => a.title.localeCompare(b.title));
 });
 
 export const getFeaturedPosts = () => {
@@ -38,45 +26,39 @@ export const getFeaturedPosts = () => {
 
 export const getRelatedPosts = cache((currentPostTitle: string) => {
   const posts = getAllPosts();
-  const onlyPosts = posts
-    .filter((post) => post.title !== "data")
-    .sort((a, b) => a.title - b.title);
-  const currentPostIdx = onlyPosts.findIndex(
+  const currentPostIdx = posts.findIndex(
     (post) => post.title === currentPostTitle
   );
 
-  return [onlyPosts[currentPostIdx - 1], onlyPosts[currentPostIdx + 1]];
+  return [posts[currentPostIdx - 1], posts[currentPostIdx + 1]];
 });
 
-export const getSeries = cache((): Promise<SeriesDataWithTitle[]> => {
-  return new Promise((resolve) => {
-    const postsFolderPath = path.join(process.cwd(), "__posts");
+export const getSeries = async (): Promise<SeriesDataWithTitle[]> => {
+  const folders = await fs.promises.readdir(rootDirPath);
+  const seriesDataPromises = folders.map(async (folderName) => {
+    const seriesPath = path.join(rootDirPath, folderName);
+    const seriesDataPath = path.join(seriesPath, "data.md");
 
-    const result: SeriesDataWithTitle[] = [];
-    fs.readdir(postsFolderPath, (_, folders) => {
-      const promises = folders.map((folderName) => {
-        const seriesPath = path.join(postsFolderPath, folderName);
-        const seriesDataPath = path.join(seriesPath, "data.md");
-
-        return getSeriesData(seriesDataPath).then((data) => {
-          const seriesData = {
-            title: folderName,
-            ...data,
-          };
-          result.push(seriesData);
-        });
-      });
-
-      Promise.all(promises).then(() => {
-        resolve(result.sort((a, b) => a.title.localeCompare(b.title)));
-      });
-    });
+    const data = await getSeriesData(seriesDataPath);
+    const seriesData: SeriesDataWithTitle = {
+      title: folderName,
+      ...data,
+    };
+    return seriesData;
   });
-});
 
-const getSeriesData = cache((dataPath: string): Promise<SeriesData> => {
-  return new Promise((resolve) => {
+  const seriesDataList = await Promise.all(seriesDataPromises);
+  return seriesDataList.sort((a, b) => a.title.localeCompare(b.title));
+};
+
+const getSeriesData = (dataPath: string): Promise<SeriesData> => {
+  return new Promise((resolve, reject) => {
     fs.readFile(dataPath, "utf8", (err, mdContent) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
       const { data } = matter(mdContent);
       resolve({
         description: data.description,
@@ -84,25 +66,11 @@ const getSeriesData = cache((dataPath: string): Promise<SeriesData> => {
       });
     });
   });
-});
+};
 
 export const getPostsOfSeries = cache((series: string): PostData[] => {
-  const postsFolderPath = path.join(process.cwd(), `__posts/${series}`);
-  const fileNames = fs.readdirSync(postsFolderPath);
-  const postNames = fileNames.filter((fileName) => fileName !== "data.md");
-
-  const posts = postNames.map((fileName) => {
-    const filePath = path.join(postsFolderPath, fileName);
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data, content } = matter(fileContents);
-    const postData = {
-      ...data,
-      content,
-      series,
-      title: fileName.replace(".md", ""),
-    };
-    return postData as PostData;
-  });
+  const postDirList = getPostDirListOfSeries(series);
+  const posts = postDirList.map((postDir) => getPostContent(series, postDir));
 
   return posts;
 });
@@ -110,5 +78,31 @@ export const getPostsOfSeries = cache((series: string): PostData[] => {
 export const getPost = cache((title: string): PostData => {
   const posts = getAllPosts();
   const matchedPost = posts.find((post) => post.title === title);
+  if (!matchedPost) {
+    throw new Error("no matched post");
+  }
   return matchedPost;
 });
+
+const getPostDirListOfSeries = (series: string) => {
+  const seriesDirPath = path.join(rootDirPath, series);
+  const seriesDirList = fs.readdirSync(seriesDirPath);
+  const postDirList = seriesDirList.filter(
+    (seriesDir) => seriesDir !== "data.md"
+  );
+  return postDirList;
+};
+
+const getPostContent = (series: string, postDir: string) => {
+  const seriesDirPath = path.join(rootDirPath, series);
+  const filePath = path.join(seriesDirPath, postDir);
+  const fileContents = fs.readFileSync(filePath, "utf8");
+  const { data, content } = matter(fileContents);
+  const postData = {
+    ...data,
+    content,
+    series,
+    title: postDir.replace(".md", ""),
+  };
+  return postData as PostData;
+};
