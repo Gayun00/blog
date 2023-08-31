@@ -10,12 +10,10 @@ const rootDirPath = path.join(process.cwd(), "__posts");
 export const getAllPosts = cache(() => {
   const rootDir = fs.readdirSync(rootDirPath);
   const posts = rootDir.reduce((acc: PostData[], series: string) => {
-    const seriesDirPath = path.join(rootDirPath, series);
-    const seriesDir = fs.readdirSync(seriesDirPath);
-
-    const seriesPosts = seriesDir
-      .filter((postName) => postName !== "data.md")
-      .map((postName) => getPostContent(seriesDirPath, series, postName));
+    const postDirList = getPostDirListOfSeries(series);
+    const seriesPosts = postDirList.map((postName) =>
+      getPostContent(series, postName)
+    );
     return [...acc, ...seriesPosts];
   }, []);
 
@@ -72,12 +70,8 @@ const getSeriesData = cache((dataPath: string): Promise<SeriesData> => {
 });
 
 export const getPostsOfSeries = cache((series: string): PostData[] => {
-  const seriesDirPath = path.join(rootDirPath, series);
   const postDirList = getPostDirListOfSeries(series);
-
-  const posts = postDirList.map((postDir) =>
-    getPostContent(seriesDirPath, series, postDir)
-  );
+  const posts = postDirList.map((postDir) => getPostContent(series, postDir));
 
   return posts;
 });
@@ -100,11 +94,8 @@ const getPostDirListOfSeries = (series: string) => {
   return postDirList;
 };
 
-const getPostContent = (
-  seriesDirPath: string,
-  series: string,
-  postDir: string
-) => {
+const getPostContent = (series: string, postDir: string) => {
+  const seriesDirPath = path.join(rootDirPath, series);
   const filePath = path.join(seriesDirPath, postDir);
   const fileContents = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(fileContents);
