@@ -4,7 +4,7 @@ import Posts from "@/app/components/Posts";
 
 export async function generateStaticParams() {
   return getSeries().then((seriesList) =>
-    seriesList.map((series) => ({ series: encodeURI(series.title) }))
+    seriesList.map((series) => ({ series: series.title }))
   );
 }
 
