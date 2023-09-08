@@ -4,7 +4,7 @@ interface Props {
   children: ReactNode;
 }
 
-function MyInfoTags({ children }: Props) {
+function TagsSentence({ children }: Props) {
   return (
     <div className="flex justify-between h-36 gap-x-20">
       <p className="py-2 text-xl">저는</p>
@@ -14,4 +14,4 @@ function MyInfoTags({ children }: Props) {
   );
 }
 
-export default MyInfoTags;
+export default TagsSentence;

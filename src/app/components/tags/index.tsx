@@ -1,7 +1,7 @@
 import React from "react";
 import TagItem from "./TagItem";
-import MyInfoTags from "./MyInfoTags";
 import TagList from "./TagList";
+import TagsSentence from "./TagsSentence";
 
 function Tags() {
   return <div>Tags</div>;
@@ -9,6 +9,6 @@ function Tags() {
 
 Tags.Item = TagItem;
 Tags.List = TagList;
-Tags.MyInfo = MyInfoTags;
+Tags.Sentence = TagsSentence;
 
 export default Tags;

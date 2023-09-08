@@ -42,7 +42,7 @@ export default function Home() {
 
   return (
     <div className="mt-20 flex justify-center h-screen">
-      <Tags.MyInfo>
+      <Tags.Sentence>
         <Tags.List selectedTag={selectedTag} translateSpace={translateSpace}>
           {tags.map((tag) => (
             <Tags.Item
@@ -53,7 +53,7 @@ export default function Home() {
             />
           ))}
         </Tags.List>
-      </Tags.MyInfo>
+      </Tags.Sentence>
     </div>
   );
 }
