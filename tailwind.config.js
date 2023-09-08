@@ -24,6 +24,10 @@ module.exports = {
         "new-morph":
           "5px 5px 10px 0px #D3DBE6, -5px -5px 20px 0px #FFF, -1px -1px 1px 0px rgba(255, 255, 255, 0.60);",
       },
+      translate: {
+        13: "3.3rem",
+        26: "6.5rem",
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],
