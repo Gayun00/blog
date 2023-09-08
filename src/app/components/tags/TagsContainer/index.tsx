@@ -1,15 +1,21 @@
 import React from "react";
-import Tag from "../Tag";
+import TagItem from "../TagItem";
+import { TagData } from "@/app/page";
 
 interface Props {
-  tags: any;
+  tags: TagData[];
+  selectedTag: string;
 }
 
-function TagsContainer({ tags }: Props) {
+function TagsContainer({ tags, selectedTag }: Props) {
   return (
-    <div>
-      {tags.map((tag: any) => (
-        <Tag tag={tag} key={tag} />
+    <div className="flex flex-col gap-y-3">
+      {tags.map((tag) => (
+        <TagItem
+          tag={tag}
+          key={tag.type}
+          isSelected={tag.type === selectedTag}
+        />
       ))}
     </div>
   );
