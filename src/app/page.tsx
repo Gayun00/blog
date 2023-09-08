@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import TagsWrapper from "./components/tags/TagsWrapper";
+import Tags from "./components/tags";
 // TODO: constants로 이동
 const TAG = {
   TAG1: "tag1",
@@ -32,7 +32,13 @@ export default function Home() {
   const [selectedTag, setSelectedTag] = useState(TAG.TAG1);
   return (
     <div className="mt-20 flex justify-center h-screen">
-      <TagsWrapper tags={tags} selectedTag={selectedTag} />
+      <Tags.MyInfo>
+        <Tags.List>
+          {tags.map((tag) => (
+            <Tags.Item key={tag.type} tag={tag} isSelected={false} />
+          ))}
+        </Tags.List>
+      </Tags.MyInfo>
     </div>
   );
 }
