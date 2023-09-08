@@ -1,3 +1,4 @@
+"use client";
 import React, { ReactNode } from "react";
 
 interface Props {
@@ -9,7 +10,7 @@ function List({ title, children }: Props) {
   return (
     <div className="p-20 w-full flex flex-col">
       <h2 className="mb-6">{title}</h2>
-      <ul className="flex gap-x-10">{children}</ul>
+      <ul className="flex items-start gap-x-10">{children}</ul>
     </div>
   );
 }
