@@ -52,7 +52,7 @@ export default function Home() {
   };
 
   return (
-    <div className="mt-20 flex flex-col items-center h-screen">
+    <div className="mt-24 flex flex-col items-center h-screen">
       <Tags.Sentence>
         <Tags.List selectedTag={selectedTag} translateSpace={translateSpace}>
           {tags.map((tag) => (

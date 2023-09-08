@@ -7,10 +7,10 @@ interface Props {
 
 function Item({ title, children }: Props) {
   return (
-    <div>
-      <h3>{title}</h3>
+    <li>
+      <h3 className="mb-4">{title}</h3>
       {children}
-    </div>
+    </li>
   );
 }
 

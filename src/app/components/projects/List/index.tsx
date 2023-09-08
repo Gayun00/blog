@@ -5,13 +5,13 @@ interface Props {
   children: ReactNode;
 }
 
-function Layout({ title, children }: Props) {
+function List({ title, children }: Props) {
   return (
-    <div className="p-20 w-full flex flex-col gap-y-10">
-      <h2>{title}</h2>
-      {children}
+    <div className="p-20 w-full flex flex-col">
+      <h2 className="mb-6">{title}</h2>
+      <ul className="flex flex-col gap-y-10">{children}</ul>
     </div>
   );
 }
 
-export default Layout;
+export default List;

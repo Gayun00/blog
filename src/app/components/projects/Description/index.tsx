@@ -10,7 +10,7 @@ interface Props {
 
 function Description({ imageUrl, description }: Props) {
   return (
-    <div className="flex">
+    <div className="flex gap-x-10">
       <Image alt="project_thumbnail" width={400} height={30} src={imageUrl} />
       <ReactMarkdown className="prose lg:prose-sm" remarkPlugins={[remarkGfm]}>
         {description}
