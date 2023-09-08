@@ -30,12 +30,27 @@ export interface TagData {
 
 export default function Home() {
   const [selectedTag, setSelectedTag] = useState(TAG.TAG1);
+  const handleTagSelect = (tag: string) => {
+    setSelectedTag(tag);
+  };
+
+  const translateSpace = {
+    [TAG.TAG1]: "translate-y-0",
+    [TAG.TAG2]: "-translate-y-13",
+    [TAG.TAG3]: "-translate-y-26",
+  };
+
   return (
     <div className="mt-20 flex justify-center h-screen">
       <Tags.MyInfo>
-        <Tags.List>
+        <Tags.List selectedTag={selectedTag} translateSpace={translateSpace}>
           {tags.map((tag) => (
-            <Tags.Item key={tag.type} tag={tag} isSelected={false} />
+            <Tags.Item
+              key={tag.type}
+              tag={tag}
+              isSelected={tag.type === selectedTag}
+              onClick={() => handleTagSelect(tag.type)}
+            />
           ))}
         </Tags.List>
       </Tags.MyInfo>
