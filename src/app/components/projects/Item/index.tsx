@@ -1,15 +1,16 @@
+import Image from "next/image";
 import React, { ReactNode } from "react";
 
 interface Props {
   title: string;
-  children: ReactNode;
+  imageUrl: string;
 }
 
-function Item({ title, children }: Props) {
+function Item({ title, imageUrl }: Props) {
   return (
     <li>
-      <h3 className="mb-4">{title}</h3>
-      {children}
+      <Image alt="project_thumbnail" width={400} height={30} src={imageUrl} />
+      <h3 className="mt-4 text-center">{title}</h3>
     </li>
   );
 }
