@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 import Tags from "./components/tags";
+import Project from "./components/projects";
+import { testMarkdown } from "@/constants/projects";
+import Project1 from "./components/projects/Project1";
+import Project2 from "./components/projects/Project2";
+import Project3 from "./components/projects/Project3";
 // TODO: constants로 이동
 const TAG = {
   TAG1: "tag1",
@@ -40,8 +45,14 @@ export default function Home() {
     [TAG.TAG3]: "-translate-y-26",
   };
 
+  const projects = {
+    [TAG.TAG1]: <Project1 />,
+    [TAG.TAG2]: <Project2 />,
+    [TAG.TAG3]: <Project3 />,
+  };
+
   return (
-    <div className="mt-20 flex justify-center h-screen">
+    <div className="mt-24 flex flex-col items-center h-screen">
       <Tags.Sentence>
         <Tags.List selectedTag={selectedTag} translateSpace={translateSpace}>
           {tags.map((tag) => (
@@ -54,6 +65,8 @@ export default function Home() {
           ))}
         </Tags.List>
       </Tags.Sentence>
+
+      {projects[selectedTag]}
     </div>
   );
 }
