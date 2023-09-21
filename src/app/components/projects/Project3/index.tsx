@@ -5,19 +5,24 @@ import { testMarkdown } from "@/constants/projects";
 function Project3() {
   return (
     <>
-      <Project.List title="챌린저스 멘토링">
+      <Project.List title="함께 성장하기">
         <Project.Item
-          title="오디오 오브젝트 기능 추가"
+          title="프로젝트 회고 미팅 진행"
           imageUrl="/images/thumbnails/thumbnail1.png"
           description={`- test1\n- test2`}></Project.Item>
 
         <Project.Item
-          title="Progress UI 변경"
+          title="스프린트 관리"
           imageUrl="/images/thumbnails/thumbnail1.png"
           description={`- test1\n- test2`}></Project.Item>
 
         <Project.Item
-          title="이미지 오브젝트 gui 형태로 추가할 수 있도록 탭 추가"
+          title="프론트엔드 주간 기술 미팅"
+          imageUrl="/images/thumbnails/thumbnail1.png"
+          description={`- test1\n- test2`}></Project.Item>
+
+        <Project.Item
+          title="프론트엔드 컨퍼런스 런치"
           imageUrl="/images/thumbnails/thumbnail1.png"
           description={`- test1\n- test2`}></Project.Item>
       </Project.List>

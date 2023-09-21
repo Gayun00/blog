@@ -8,7 +8,7 @@ interface Props {
 function TagList({ children, selectedTag, translateSpace }: Props) {
   return (
     <div
-      className={`flex flex-col gap-y-3 ${translateSpace[selectedTag]} duration-300 ease-in-out`}>
+      className={`flex flex-col gap-y-3 w-full ${translateSpace[selectedTag]} duration-300 ease-in-out`}>
       {children}
     </div>
   );

@@ -13,14 +13,14 @@ function Item({ title, imageUrl, description }: Props) {
   return (
     <Modal>
       <Modal.Trigger>
-        <li className="hover:scale-105 duration-100 ease-in-out cursor-pointer">
+        <li className="w-full hover:scale-105 duration-100 ease-in-out cursor-pointer">
           <Image
             alt="project_thumbnail"
             width={400}
             height={30}
             src={imageUrl}
           />
-          <h3 className="mt-4 text-center">{title}</h3>
+          <h3 className="mt-4 h-10 text-center">{title}</h3>
         </li>
       </Modal.Trigger>
 

@@ -4,6 +4,7 @@ import Description from "./Description";
 import LinkButton from "../buttons/LinkButton";
 import List from "./List";
 import Detail from "./Detail";
+import DescriptionList from "./DescriptionList";
 
 function Project() {
   return <div>Project</div>;
@@ -12,6 +13,7 @@ function Project() {
 Project.Item = Item;
 Project.List = List;
 Project.Description = Description;
+Project.DescriptionList = DescriptionList;
 Project.Button = LinkButton;
 Project.Detail = Detail;
 

@@ -54,17 +54,21 @@ export default function Home() {
   return (
     <div className="mt-24 flex flex-col items-center h-screen">
       <Tags.Sentence>
-        <Tags.List selectedTag={selectedTag} translateSpace={translateSpace}>
-          {tags.map((tag) => (
-            <Tags.Item
-              key={tag.type}
-              tag={tag}
-              isSelected={tag.type === selectedTag}
-              onClick={() => handleTagSelect(tag.type)}
-            />
-          ))}
-        </Tags.List>
+        <div className="w-1/2">
+          <Tags.List selectedTag={selectedTag} translateSpace={translateSpace}>
+            {tags.map((tag) => (
+              <Tags.Item
+                key={tag.type}
+                tag={tag}
+                isSelected={tag.type === selectedTag}
+                onClick={() => handleTagSelect(tag.type)}
+              />
+            ))}
+          </Tags.List>
+        </div>
       </Tags.Sentence>
+
+      <div className="mt-10" />
 
       {projects[selectedTag]}
     </div>

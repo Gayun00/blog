@@ -10,7 +10,7 @@ function List({ title, children }: Props) {
   return (
     <div className="p-20 w-full flex flex-col">
       <h2 className="mb-6">{title}</h2>
-      <ul className="flex items-start gap-x-10">{children}</ul>
+      <ul className={`grid grid-cols-3 gap-10 content-start`}>{children}</ul>
     </div>
   );
 }
