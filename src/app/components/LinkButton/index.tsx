@@ -1,24 +1,36 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { ComponentProps, ReactNode } from "react";
 
 interface Props {
-  icon: string;
-  name: string;
   url: string;
-  description?: string;
+  children: ReactNode;
 }
 
-function LinkButton({ icon, name, url, description }: Props) {
+function LinkButton({ url, children }: Props) {
   return (
     <Link href={url} className="flex items-center justify-between w-full">
-      <div className="flex items-center">
-        <Image src={icon} width={20} height={20} alt="" />
-        <p className="ml-2">{name}</p>
-      </div>
-      <p className=" text-xs">{description}</p>
+      <div className="flex items-center">{children}</div>
     </Link>
   );
 }
+
+export function Icon({ image, Icon }: { image?: string; Icon?: any }) {
+  return (
+    <>
+      {image && <Image src={image} width={20} height={20} alt="" />}
+      {Icon && (
+        <div className="ml-1 flex items-center justify-center">{Icon}</div>
+      )}
+    </>
+  );
+}
+
+export function Name({ name }: { name: string }) {
+  return <p className="ml-2">{name}</p>;
+}
+
+LinkButton.Icon = Icon;
+LinkButton.Name = Name;
 
 export default LinkButton;

@@ -1,10 +1,11 @@
 import React from "react";
 import LinkButton from "../components/LinkButton";
 import Image from "next/image";
+import { CiMail } from "react-icons/ci";
 
 function Footer() {
   return (
-    <section className="my-20 p-10 flex items-center justify-between w-4/5 border-y-2">
+    <section className="mt-40 mb-20 p-10 flex flex-col items-center justify-between w-4/5 border-y-2">
       <div className="flex flex-col justify-between items-center h-40">
         <div className="relative w-20 h-20 overflow-hidden rounded-full">
           <Image
@@ -20,25 +21,30 @@ function Footer() {
         </p>
       </div>
 
-      <div className="w-2/4">
-        <LinkButton
-          name="github"
-          icon="/images/icons/github.png"
-          url="https://github.com/Gayun00"
-        />
-        <LinkButton
-          name="careerly"
-          icon="/images/icons/careerly.png"
-          url="https://careerly.co.kr/profiles/634586?from=newsfeed&location=gnb"
-          description="즐겨보는 아티클과 게시물을 확인할 수 있습니다."
-        />
-        {/* <LinkButton name="mail" /> */}
-        <LinkButton
-          name="velog"
-          icon="/images/icons/velog.png"
-          url="https://velog.io/@gygy"
-          description="이전 블로그입니다."
-        />
+      <div className="mt-10 flex justify-between w-2/4">
+        <div>
+          <LinkButton url="https://github.com/Gayun00">
+            <LinkButton.Icon image="/images/icons/github.png" />
+            <LinkButton.Name name="github" />
+          </LinkButton>
+
+          <LinkButton url="https://careerly.co.kr/profiles/634586?from=newsfeed&location=gnb">
+            <LinkButton.Icon image="/images/icons/careerly.png" />
+            <LinkButton.Name name="careerly" />
+          </LinkButton>
+        </div>
+
+        <div>
+          <LinkButton url="https://velog.io/@gygy">
+            <LinkButton.Icon image="/images/icons/velog.png" />
+            <LinkButton.Name name="velog" />
+          </LinkButton>
+
+          <LinkButton url="/mail">
+            <LinkButton.Icon Icon={<CiMail />} />
+            <LinkButton.Name name="mail" />
+          </LinkButton>
+        </div>
       </div>
     </section>
   );
