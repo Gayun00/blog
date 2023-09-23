@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Gnb from "./components/GNB";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,9 +16,7 @@ export default function RootLayout({
       <body className=" flex flex-col bg-slate-primary">
         <div className="mb-40">{children}</div>
 
-        <div className="fixed bottom-5 flex justify-center w-screen">
-          <Gnb />
-        </div>
+        <div className="fixed bottom-5 flex justify-center w-screen"></div>
       </body>
     </html>
   );
