@@ -20,7 +20,10 @@ Next.js를 사용한 기술 블로그
 
 |메인|카테고리별 목록|포스트|
 |--|--|--|
-|<img width="1171" alt="스크린샷 2023-11-21 오전 1 25 32" src="https://github.com/Gayun00/blog/assets/67543454/18b87710-b9ff-492e-9c45-ec73960423c5">|<img width="1172" alt="스크린샷 2023-11-21 오전 1 25 40" src="https://github.com/Gayun00/blog/assets/67543454/a6dc1108-b7a9-4af7-a69f-21250e860e73">|<img width="1164" alt="스크린샷 2023-11-21 오전 1 26 05" src="https://github.com/Gayun00/blog/assets/67543454/febb2c2d-8087-43a3-9dd3-36d5caa58823">|
+|<img width="1171" alt="스크린샷 2023-11-21 오전 1 25 32" src="https://github.com/Gayun00/blog/assets/67543454/49e3e24b-1e79-466e-a170-f1a3753a9713">|<img width="1172" alt="스크린샷 2023-11-21 오전 1 25 40" src="https://github.com/Gayun00/blog/assets/67543454/1955f2d9-92d8-47c8-9d41-1f9a06022cfd">|<img width="1164" alt="스크린샷 2023-11-21 오전 1 26 05" src="https://github.com/Gayun00/blog/assets/67543454/dd611282-811b-4b41-a9a8-f874dc8ceaf2">|
+
+
+
 
 
 
