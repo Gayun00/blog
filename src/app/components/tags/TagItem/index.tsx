@@ -1,8 +1,10 @@
-import { TagData } from "@/app/page";
 import React from "react";
 
 interface Props {
-  tag: TagData;
+  tag: {
+    type: string;
+    value: string;
+  };
   isSelected: boolean;
   onClick: () => void;
 }
